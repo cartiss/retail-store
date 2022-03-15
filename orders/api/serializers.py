@@ -4,15 +4,35 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.response import Response
 
-from api.models import Order, Product, OrderProduct
+from api.models import Order, Product, OrderProduct, Shop, ProductInfo
+
+
+class ShopsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Shop
+        fields = []
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    quantity = serializers.IntegerField(min_value=0)
+    shops = ShopsSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ('shops', 'name', 'quantity')
+        fields = ('name', 'category', 'shops')
+
+
+class ProductInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductInfo
+        fields = ('model', 'quantity', 'price', 'price_rrc')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    products = ProductInfoSerializer(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ('user', 'status', 'products', 'dt')
 
 
     def create(self, validated_data):

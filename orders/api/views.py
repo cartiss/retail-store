@@ -11,12 +11,17 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from yaml import load, Loader
 
 from api.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order
-from api.serializers import ProductListSerializer
+from api.serializers import ProductListSerializer, OrderSerializer, ProductInfoSerializer
 
 
 class ProductListView(ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductListSerializer
+    queryset = ProductInfo.objects.all()
+    serializer_class = ProductInfoSerializer
+
+
+class OrderView(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
 
 class ImportView(APIView):
