@@ -3,8 +3,8 @@ from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
-from api.views import ImportView, ProductListView, OrderView, BasketView, PartnerView, RegistrationView, ConfirmView, \
-    PartnerStateView, ConfirmOrderView, ConfirmedOrdersView
+from api.views import ImportView, ProductListView, OrderView, BasketView, PartnerView, RegistrationView, \
+    PartnerStateView, ConfirmOrderView, ConfirmedOrdersView, ConfirmEmailView
 
 router = routers.SimpleRouter()
 router.register(r'products', ProductListView, basename='products')
@@ -20,6 +20,6 @@ urlpatterns = [
     path('api/v1/orders/', OrderView.as_view(), name='orders'),
     path('api/v1/partner/state/', PartnerStateView.as_view(), name='partner_order'),
     path('api/v1/registration/', RegistrationView.as_view(), name='registration'),
-    #path('api/v1/registration/confirm/', ConfirmView.as_view(), name='registration_confirm'),
+    path('api/v1/registration/confirm/', ConfirmEmailView.as_view(), name='registration_confirm'),
 ]
 
