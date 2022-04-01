@@ -4,17 +4,6 @@ from rest_framework import serializers
 from api.models import Order, Product, Shop, ProductInfo, Basket, UserProfile, ConfirmedBasket
 
 
-class UserSerializer(serializers.ModelSerializer):
-    first_name = serializers.CharField(min_length=2, required=True)
-    last_name = serializers.CharField(min_length=2, required=True)
-    email = serializers.EmailField(min_length=5, required=True)
-    password = serializers.CharField(min_length=5, write_only=True, required=True)
-
-    class Meta:
-        model = User
-        fields = ('password', 'email', 'username', 'first_name', 'last_name',)
-
-
 class ShopsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Shop
@@ -80,7 +69,7 @@ class ConfirmedBasketSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'username', 'password']
+        fields = ('email', 'username', 'password')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
