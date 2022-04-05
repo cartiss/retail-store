@@ -17,7 +17,6 @@ from datetime import timedelta
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -32,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 
+# Custom apps
 MY_APPS = [
     'api',
 ]
@@ -81,7 +81,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'orders.wsgi.application'
 
 
-# Database
+# Database settings
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
@@ -116,17 +116,27 @@ AUTH_PASSWORD_VALIDATORS = [
 
 SITE_ID = 1
 
+# Rest settings
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
-    ]
-
+    ],
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '30/min',
+        'user': '50/min'
+    }
 }
 
+# Email send settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'kirill.fesiuk@gmail.com'
-EMAIL_HOST_PASSWORD = 'fyxquwixeljeoqsy'
+EMAIL_HOST_PASSWORD = '################'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
 EMAIL_USE_TLS = False
