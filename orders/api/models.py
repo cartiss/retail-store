@@ -32,7 +32,7 @@ class Shop(models.Model):
     name = models.CharField(verbose_name='Shop name', max_length=50, unique=True)
     url = models.URLField(verbose_name='Shop url')
     filename = models.CharField(verbose_name='Filename', max_length=50)
-    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     #products
     #categories
 
