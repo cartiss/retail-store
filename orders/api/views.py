@@ -20,21 +20,11 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from yaml import load, Loader
 
 from api.models import Shop, Category, Product, ProductInfo, Parameter, ProductParameter, Order, Basket, UserProfile, \
-    ConfirmedBasket, ConfirmEmailToken, Contact
+    ConfirmedBasket
 from api.serializers import ProductListSerializer, OrderSerializer, ProductInfoSerializer, BasketSerializer, \
     PartnerSerializer, UserSerializer, OrderPartnerSerializer, PartnerStateSerializer, ConfirmedBasketSerializer, \
     ContactSerializer
 from orders import settings
-
-
-class ContactView(APIView):
-    def post(self, request, *args, **kwargs):
-        pass
-
-    def get(self, request, *args, **kwargs):
-        contact = Contact.objects.get(user=request.user)
-        serializer = ContactSerializer(contact)
-        return JsonResponse(serializer.data)
 
 
 class RegistrationView(APIView):
@@ -119,6 +109,7 @@ class ProductListView(ViewSet):
         '''
         products = Product.objects.filter(shops__user__userprofile__state=True)
         serializer = ProductListSerializer(products, many=True)
+
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
@@ -127,8 +118,8 @@ class ProductListView(ViewSet):
         '''
         queryset = Product.objects.get(id=pk)
         serializer = ProductListSerializer(queryset)
-        return Response(serializer.data)
 
+        return Response(serializer.data)
 
 class OrderView(APIView):
     permission_classes = [IsAuthenticated]
@@ -169,7 +160,7 @@ class BasketView(APIView):
         '''
         basket = Basket.objects.get(user=request.user.userprofile)
         serializer = BasketSerializer(basket)
-        return Response(serializer.data)
+        return JsonResponse(serializer.data)
 
 
 class ConfirmOrderView(APIView):
@@ -256,7 +247,6 @@ class PartnerStateView(APIView):
                 userprofile = UserProfile.objects.get(user=request.user)
                 userprofile.state = serializer.validated_data.get('state')
                 userprofile.save()
-
                 return JsonResponse({'Status': True})
             return JsonResponse({'Status': False, 'Errors': serializer.errors}, status=HTTP_400_BAD_REQUEST)
         return JsonResponse({'Status': False, 'Errors': 'All required arguments not provided'}, status=HTTP_400_BAD_REQUEST)
@@ -281,7 +271,7 @@ class ImportView(APIView):
 
             for product in data['goods']:
                 product_obj, _ = Product.objects.get_or_create(name=product['name'],
-                                                               category=product['category'])
+                                                            category=Category.objects.get(id=product['category']))
                 product_info_obj, _ = ProductInfo.objects.get_or_create(product=product_obj,
                                                                      shop=shop,
                                                                      quantity=product['quantity'],
@@ -298,7 +288,6 @@ class ImportView(APIView):
 
             return JsonResponse({'Status': True})
         return JsonResponse({'Status': False, 'Error': 'No file'}, status=HTTP_400_BAD_REQUEST)
-
 
     def put(self, request, *args, **kwargs):
         '''

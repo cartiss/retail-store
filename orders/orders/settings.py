@@ -139,7 +139,6 @@ EMAIL_HOST_USER = 'kirill.fesiuk@gmail.com'
 EMAIL_HOST_PASSWORD = '################'
 EMAIL_PORT = '465'
 EMAIL_USE_SSL = True
-EMAIL_USE_TLS = False
 SERVER_EMAIL = EMAIL_HOST_USER
 
 AUTH_PROFILE_MODULE = 'api.UserProfile'
