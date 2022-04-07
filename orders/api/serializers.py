@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from api.models import Order, Product, Shop, ProductInfo, Basket, UserProfile, ConfirmedBasket
+from api.models import Order, Product, Shop, ProductInfo, Basket, UserProfile, ConfirmedBasket, ConfirmEmailToken
 
 
 class ShopsSerializer(serializers.ModelSerializer):
@@ -69,7 +69,7 @@ class ConfirmedBasketSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'username', 'password')
+        fields = ('email', 'username', 'password', 'first_name', 'last_name')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -89,4 +89,12 @@ class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'product', 'status', 'dt', 'quantity', 'user']
+
+
+class ConfirmEmailTokenSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
+    class Meta:
+        model = ConfirmEmailToken
+        fields = ['user']
 

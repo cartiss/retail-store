@@ -6,6 +6,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.core.validators import URLValidator
 from django.http import JsonResponse
+from api.tasks import send_email
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -23,6 +24,7 @@ from api.models import Shop, Category, Product, ProductInfo, Parameter, ProductP
     ConfirmedBasket, ConfirmEmailToken
 from api.serializers import ProductListSerializer, OrderSerializer, ProductInfoSerializer, BasketSerializer, \
     PartnerSerializer, UserSerializer, OrderPartnerSerializer, PartnerStateSerializer, ConfirmedBasketSerializer, \
+    ConfirmEmailTokenSerializer
 from orders import settings
 
 
@@ -52,29 +54,7 @@ class RegistrationView(APIView):
                         user.set_password(request.data.get('password'))
                         user.save()
                         token, _ = ConfirmEmailToken.objects.get_or_create(user_id=user.id)
-
-                        async def send_email():
-                            '''
-                            Message to user email
-                            '''
-                            msg = EmailMultiAlternatives(
-                                f"Password Reset Token for {token.user.email}",
-                                token.key,
-                                settings.EMAIL_HOST_USER,
-                                [token.user.email]
-                            )
-                            msg.send()
-
-                        async def async_send_email():
-                            '''
-                            Acync tasks
-                            '''
-                            tasks = []
-                            task = asyncio.create_task(send_email())
-                            tasks.append(task)
-                            await asyncio.gather(*tasks)
-
-                        asyncio.run(async_send_email())
+                        send_email.delay(token.key, token.user.email)
 
                         return JsonResponse({'Status': True, 'Message': 'Confirm your email'})
                     return JsonResponse({'Status': False, 'Errors': 'Email have already registered'}, status=HTTP_400_BAD_REQUEST)
@@ -119,6 +99,7 @@ class ProductListView(ViewSet):
         serializer = ProductListSerializer(queryset)
 
         return Response(serializer.data)
+
 
 class OrderView(APIView):
     permission_classes = [IsAuthenticated]
