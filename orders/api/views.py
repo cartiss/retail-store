@@ -24,8 +24,33 @@ from api.models import Shop, Category, Product, ProductInfo, Parameter, ProductP
     ConfirmedBasket, ConfirmEmailToken
 from api.serializers import ProductListSerializer, OrderSerializer, ProductInfoSerializer, BasketSerializer, \
     PartnerSerializer, UserSerializer, OrderPartnerSerializer, PartnerStateSerializer, ConfirmedBasketSerializer, \
-    ConfirmEmailTokenSerializer
+    ConfirmEmailTokenSerializer, ProfileSerializer
 from orders import settings
+
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        '''
+        Post contacts about user in UserProfile model
+        '''
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            instance = UserProfile.objects.get(user=request.user)
+            serializer.update(instance, serializer.validated_data)
+            return JsonResponse({'Status': True}, status=HTTP_200_OK)
+        return JsonResponse({'Status': False, 'Errors': serializer.errors}, status=HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        '''
+        Get user's contacts
+        '''
+        profile = UserProfile.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile)
+        return JsonResponse(serializer.data)
+
+
 
 
 class RegistrationView(APIView):
@@ -56,7 +81,7 @@ class RegistrationView(APIView):
                         token, _ = ConfirmEmailToken.objects.get_or_create(user_id=user.id)
                         send_email.delay(token.key, token.user.email)
 
-                        return JsonResponse({'Status': True, 'Message': 'Confirm your email'})
+                        return JsonResponse({'Status': True, 'Message': 'Confirm your email'}, status=HTTP_200_OK)
                     return JsonResponse({'Status': False, 'Errors': 'Email have already registered'}, status=HTTP_400_BAD_REQUEST)
                 return JsonResponse({'Status': False, 'Errors': serializer.errors}, status=HTTP_400_BAD_REQUEST)
         return JsonResponse({'Status': False, 'Error': 'All required arguments not provided'}, status=HTTP_400_BAD_REQUEST)

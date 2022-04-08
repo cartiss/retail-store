@@ -98,3 +98,8 @@ class ConfirmEmailTokenSerializer(serializers.ModelSerializer):
         model = ConfirmEmailToken
         fields = ['user']
 
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['address', 'index', 'city', 'phone']

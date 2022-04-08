@@ -7,8 +7,12 @@ from django_rest_passwordreset.tokens import get_token_generator
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     state = models.BooleanField(default=True)
+    phone = models.CharField(unique=True, null=True, blank=True, max_length=20)
+    address = models.CharField(null=True, blank=True, max_length=128)
+    city = models.CharField(max_length=128, null=True, blank=True)
+    index = models.PositiveIntegerField(null=True, blank=True)
     #basket
 
     def __str__(self):
@@ -119,18 +123,6 @@ class ConfirmedBasket(models.Model):
     mail = models.CharField(max_length=30, choices=MAILS, default='новая почта')
     index = models.PositiveIntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='confirmed_basket')
-
-
-class Contact(models.Model):
-    class Meta:
-        verbose_name = 'Contact'
-        verbose_name_plural = 'Contacts'
-
-    phone = models.CharField(unique=True, null=True, blank=True, max_length=20)
-    address = models.CharField(null=True, blank=True, max_length=128)
-    city = models.CharField(max_length=128, null=True, blank=True)
-    index = models.PositiveIntegerField(null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
 class ConfirmEmailToken(models.Model):
