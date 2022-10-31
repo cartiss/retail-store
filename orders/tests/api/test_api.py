@@ -3,7 +3,7 @@ from django.urls import reverse
 from rest_framework.authtoken.admin import User
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.authtoken.models import Token
-from api.models import Product, Category, Shop, ProductInfo, UserProfile, Order, ConfirmedBasket
+from ...api.models import Product, Category, Shop, ProductInfo, UserProfile, Order, ConfirmedBasket
 
 
 @pytest.mark.django_db

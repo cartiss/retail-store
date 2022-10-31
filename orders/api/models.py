@@ -100,7 +100,7 @@ class Order(models.Model):
 class Basket(models.Model):
     class Meta:
         verbose_name = 'Basket'
-        verbose_name = 'Baskets'
+        verbose_name_plural = 'Baskets'
 
     user = models.OneToOneField('UserProfile', on_delete=models.CASCADE)
     # orders
