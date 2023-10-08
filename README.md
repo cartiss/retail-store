@@ -1,169 +1,167 @@
-# Дипломная работа к профессии Python-разработчик «API Сервис заказа товаров для розничных сетей».
+# Diploma work for the profession of Python developer "API Service of ordering goods for retailers".
 
-## Описание
+## Description
 
-Приложение предназначено для автоматизации закупок в розничной сети. Пользователи сервиса — покупатель (менеджер торговой сети, который закупает товары для продажи в магазине) и поставщик товаров.
+The application is designed to automate purchases in a retail chain. The users of the service are a buyer (a manager of a retail chain who purchases goods for sale in a shop) and a supplier of goods.
 
-**Клиент (покупатель):**
+**Customer (buyer):**
 
-- Менеджер закупок через API делает ежедневные закупки по каталогу, в котором
-  представлены товары от нескольких поставщиков.
-- В одном заказе можно указать товары от разных поставщиков — это
-  повлияет на стоимость доставки.
-- Пользователь может авторизироваться, регистрироваться и восстанавливать пароль через API.
+- The purchasing manager via API makes daily purchases from a catalogue, which
+  products from several suppliers.
+- It is possible to specify products from different suppliers in one order - this will
+  will affect the cost of delivery.
+- User can authorise, register and recover password via API.
     
-**Поставщик:**
+**Vendor:**
 
-- Через API информирует сервис об обновлении прайса.
-- Может включать и отключать прием заказов.
-- Может получать список оформленных заказов (с товарами из его прайса).
+- Via API informs the service about price list updates.
+- Can switch on and switch off order acceptance.
+- Can receive the list of completed orders (with items from its price list).
 
 
-### Задача
+### Task
 
-Необходимо разработать backend-часть (Django) сервиса заказа товаров для розничных сетей.
+Need to develop backend part (Django) of the service of ordering goods for retail chains.
 
-**Базовая часть:**
-* Разработка сервиса под готовую спецификацию (API);
-* Возможность добавления настраиваемых полей (характеристик) товаров;
-* Импорт товаров;
-* Отправка накладной на email администратора (для исполнения заказа);
-* Отправка заказа на email клиента (подтверждение приема заказа).
+**Basic part:**
+* Development of the service under the ready specification (API);
+* Ability to add customisable fields (characteristics) of goods;
+* Import of goods;
+* Sending delivery note to administrator's email (for order fulfilment);
+* Sending an order to the customer's email (confirmation of order acceptance).
 
-**Продвинутая часть:**
-* Экспорт товаров;
-* Админка заказов (проставление статуса заказа и уведомление клиента);
-* Выделение медленных методов в отдельные процессы (email, импорт, экспорт).
+**Advanced part:**
+* Export of goods;
+* Order administration (order status and customer notification);
+* Separation of slow methods into separate processes (email, import, export).
 
-### Исходные данные
+### Source data
  
-1. Общее описание сервиса
-1. [Спецификация (API) - 1 шт.](./reference/screens.md)
-1. [Файлы yaml для импорта товаров - 1 шт.](./data/shop1.yaml)
-1. [Пример API Сервиса для магазина](./reference//netology_pd_diplom/) 
+1. general description of the service
+1. [Specification (API) - 1 piece](./reference/screens.md)
+1. [Yaml files for importing goods - 1 piece](./data/shop1.yaml).
+1. [Sample API Service for shop](./reference//netology_pd_diplom/) 
 
-## Этапы разработки
+## Development Stages
 
-Разработку Backend рекомендуется разделить на следующие этапы:
+Backend development is recommended to be divided into the following stages:
 
-Базовая часть:
-1. [Создание и настройка проекта](./reference/step-1.md)
-2. [Проработка моделей данных](./reference/step-2.md)
-3. [Реализация импорта товаров](./reference/step-3.md)
-4. [Реализация API views](./reference/step-4.md)
-5. [Полностью готовый backend](./reference/step-5.md)
+Basic:
+1. [Create and set up the project](./reference/step-1.md)
+2. [Working out the data models](./reference/step-2.md)
+3. [Implementing product import](./reference/step-3.md)
+4. [Implementing API views](./reference/step-4.md)
+5. [Fully finished backend](./reference/step-5.md)
 
-Продвинутая часть (по желанию, если базовая часть полностью готова):
+Advanced part (optional, if the basic part is completely ready):
 
-6. [Реализация forms и views админки склада](./reference/step-6-adv.md)
-7. [Вынос медленных методов в задачи Celery](./reference/step-7-adv.md)
-8. Создание docker-файла для приложения
-
-
-Настоятельно рекомендуется вести разработку с использованием git (github/gitlab/bitbucket) с регулярными коммитами в репозиторий, доступный вашему дипломному руководителю. Старайтесь делать коммиты как можно чаще для того, чтобы иметь возможность оперативно получать обратную связь от руководителя проекта и избежать лишнего переписывания кода, если что-то потребует корректировки.
-
-Разберём подробно каждый этап.
-
-### Этап 1. Создание и настройка проекта
-
-Критерии достижения:
-
-1. Вы имеете актуальный код данного репозитория на рабочем компьютере;
-2. У вас создан django-проект и он запускается без ошибок.
-
-Для получения подробностей по данному этапу
-[перейдите по ссылке](./reference/step-1.md).
-
-### Этап 2. Проработка моделей данных
-
-Критерии достижения:
-
-1. Созданы модели и их дополнительные методы.
-
-Для получения подробностей по данному этапу
-[перейдите по ссылке](./reference/step-2.md).
-
-### Этап 3. Реализация импорта товаров
-
-Критерии достижения:
-
-1. Созданы функции загрузки товаров из приложенных файлов в модели Django.
-2. Загружены товары из всех файлов для импорта.
-
-Для получения подробностей по данному этапу
-[перейдите по ссылке](./reference/step-3.md).
-
-### Этап 4. Реализация forms и views
-
-Критерии достижения:
-
-1. Реализованы API Views для основных [страниц](./reference/screens.md) сервиса (без админки):
-   - Вход
-   - Регистрация
-   - Список товаров
-   - Карточка товара
-   - Корзина
-   - Подтверждение заказа
-   - Спасибо за заказ
-   - Заказы
-   - Заказ
-
-Для получения подробностей по данному этапу
-[перейдите по ссылке](./reference/step-4.md).
-
-### Этап 5. Полностью готовый backend
-
-Критерии достижения:
-
-1. Полностью работающие API Endpoint
-2. Корректно отрабатывает следующий сценарий:
-   - пользователь может авторизироваться;
-   - есть возможность отправки данных для регистрации и получения email с подтверждением регистрации;
-   - пользователь может добавлять в корзину товары от разных магазинов;
-   - пользователь может подтверждать заказ с вводом адреса доставки;
-   - пользователь получает email с подтверждением после ввода адреса доставки;
-   - Пользователь может переходить на страницу "Заказы" и открывать созданный заказ.
-
-Для получения подробностей по данному этапу
-[перейдите по ссылке](./reference/step-5.md).
-
-## Полезные материалы
-
-1. [Информация о сервисе](./reference/service.md)
-2. [Спецификация API](./reference/api.md)
-3. [Описание страниц сервиса](./reference/screens.md)
+6. [Implementation of forms and views of the warehouse admin](./reference/step-6-adv.md)
+7. [Bringing slow methods into Celery tasks](./reference/step-7-adv.md)
+8. Creating a docker file for the application
 
 
----
+It is strongly recommended to develop using git (github/gitlab/bitbucket) with regular commits to a repository accessible to your thesis advisor. Try to commit as often as possible in order to be able to get feedback from the project manager and avoid unnecessary rewriting of the code if something needs to be corrected.
 
-## Продвинутая часть (по желанию)
+Let's examine each stage in detail.
 
-Обязательное условие: Базовая часть полностью готова.
+### Stage 1: Creating and setting up the project
 
-### Этап 6. Реализация API views админки склада
+Achievement Criteria:
 
-Критерии достижения:
+1. You have the actual code of this repository on your work computer;
+2. You have a django project created and it runs without errors.
 
-1. Реализованы API views для [страниц админки](./reference/screens.md) сервиса.
+For more details on this step
+[follow the link](./reference/step-1.md).
+
+#### Stage 2: Work through the data models
+
+Achievement Criteria:
+
+1. Models and their complementary methods have been created.
+
+For details on this stage
+[follow the link](./reference/step-2.md).
+
+#### Stage 3: Implement the import of goods
+
+Achievement Criteria:
+
+1. Created functions to load goods from attached files in Django model.
+2. Loaded goods from all files for import.
+
+For details on this step.
+[follow the link](./reference/step-3.md).
+
+### Stage 4: Implementing forms and views
+
+Achievement Criteria:
+
+1. Implemented Views APIs for the main [pages](./reference/screens.md) of the service (without admin):
+   - Login
+   - Registration
+   - List of goods
+   - Product card
+   - Basket
+   - Order Confirmation
+   - Thank you for your order
+   - Orders
+   - Order
+
+For details on this step
+[follow the link](./reference/step-4.md).
+
+#### Stage 5: Completely finished backend
+
+Achievement Criteria:
+
+1. Fully working Endpoint APIs
+2. The following scenario works correctly:
+   - a user can authorise;
+   - it is possible to send registration data and receive registration confirmation email;
+   - the user can add products from different shops to the basket;
+   - the user can confirm the order by entering the delivery address;
+   - user receives a confirmation email after entering the delivery address;
+   - The user can go to the "Orders" page and open the created order.
+
+For more details on this step
+[follow the link](./reference/step-5.md).
+
+## Useful materials
+
+1. [Service Information](./reference/service.md)
+2. [API Specification](./reference/api.md)
+3. [Service pages description](./reference/screens.md)
 
 
-Для получения подробностей по данному этапу
-[перейдите по ссылке](reference/step-6-adv.md).
+## Advanced part (optional)
 
-### Этап 7. Вынос медленных методов в задачи Celery
+Prerequisite: Basic part is completely ready.
 
-Критерии достижения:
+### Stage 6: Realisation of API views of the warehouse admin area.
 
-1. Создано Celery-приложение c методами:
+Achievement Criteria:
+
+1. Implemented API views for [admin pages](./reference/screens.md) of the service.
+
+
+For details on this milestone
+[follow the link](reference/step-6-adv.md).
+
+#### Stage 7: Bringing slow methods into Celery tasks
+
+Achievement criteria:
+
+1. Celery application with methods:
    - send_email
    - do_import
-2. Создан view для запуска Celery-задачи do_import из админки.
+2. Created view to run Celery task do_import from the admin area.
 
-Для получения подробностей по данному этапу
-[перейдите по ссылке](reference/step-7-adv.md).  
+For more details on this step
+[follow the link](reference/step-7-adv.md).  
 
 
-### Этап 8. Создание docker-файла для приложения
-1. Создать docker-файл для сборки приложения.
-2. Предоставить инструкцию для сборки docker-образа.
-3. Создать docker-compose файл для развертывания приложения локально (с БД и необходимыми сервисами)
+#### Step 8: Create a docker file for the application
+1. Create a docker file to build the application.
+2. Provide instructions for building the docker image.
+3. Create a docker-compose file to deploy the application locally (with the database and necessary services)
